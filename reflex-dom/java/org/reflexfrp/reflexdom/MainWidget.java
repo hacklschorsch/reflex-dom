@@ -102,9 +102,18 @@ public class MainWidget {
     });
 
     wv.setWebChromeClient(new WebChromeClient() {
+	    @Override
+	    public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+		Log.d("HaskellActivity", consoleMessage.message() + " -- From line " +
+		      consoleMessage.lineNumber() + " of " + consoleMessage.sourceId());
+		return true;
+	    }
+
         // Need to accept permissions to use the camera and audio
         @Override
         public void onPermissionRequest(final PermissionRequest request) {
+	    Log.d("HaskellActivity", "onPermissionRequest from " + request.getOrigin().toString());
+
             if(request.getOrigin().toString().startsWith("file://")) {
                 a.requestWebViewPermissions(request);
             }
