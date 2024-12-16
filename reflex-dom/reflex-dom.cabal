@@ -1,6 +1,6 @@
 cabal-version: 1.24
 Name: reflex-dom
-Version: 0.6.1.1
+Version: 0.6.3.1
 Synopsis: Functional Reactive Web Apps with Reflex
 Description:
   Web applications without callbacks or side-effects.
@@ -61,8 +61,8 @@ library
     hs-source-dirs: src-android
     other-modules: Reflex.Dom.Android.MainWidget
     build-depends:
-      aeson >= 1.4 && < 1.6,
-      android-activity == 0.1.*,
+      aeson >= 1.4 && < 2.2,
+      android-activity == 0.2.*,
       data-default == 0.7.*,
       jsaddle >= 0.9.6 && < 0.10
     c-sources: cbits/MainWidget.c
@@ -73,8 +73,8 @@ library
   build-depends:
     base >= 4.7 && < 4.15,
     bytestring == 0.10.*,
-    reflex >= 0.8 && < 0.9,
-    reflex-dom-core >= 0.6.1.0 && <0.8,
+    reflex >= 0.8 && < 1,
+    reflex-dom-core >= 0.6.1.0 && <0.9,
     text == 1.2.*
   if !impl(ghcjs)
     if flag(use-warp)
@@ -93,17 +93,14 @@ library
             jsaddle >= 0.9.6 && < 0.10,
             jsaddle-wasm >= 0.1 && < 0.2
         else
-          if flag(webkit2gtk)
+          if flag(webkit2gtk) && !os(android)
             build-depends:
               jsaddle-webkit2gtk >= 0.9.6 && < 0.10
-          else
-            if !os(android)
-              build-depends:
-                jsaddle-webkit2gtk >= 0.9.6 && < 0.10
 
   exposed-modules:
     Reflex.Dom
     Reflex.Dom.Internal
+    Reflex.Dom.Location.Platform
   reexported-modules:
       Foreign.JavaScript.Orphans
     , Foreign.JavaScript.TH
